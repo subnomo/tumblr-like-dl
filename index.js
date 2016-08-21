@@ -14,7 +14,9 @@ mkdirp(argv.d || 'downloaded', err => {
     if (err) console.error(err);
 });
 
-var cred = require('./credentials.js');
+var cred = require(process.env.TUMBLR_CREDS ||
+    process.env.HOME + '/tumblr_credentials.json');
+
 var client = new tumblr.Client({
     credentials: {
         consumer_key: cred.consumer_key,
