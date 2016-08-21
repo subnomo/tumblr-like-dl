@@ -3,9 +3,12 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const request = require('request');
 const tumblr = require('tumblr.js');
+const minimist = require('minimist');
 const ProgressBar = require('progress');
 
-mkdirp('downloaded', err => {
+var argv = minimist(process.argv.slice(2));
+
+mkdirp(argv.d || 'downloaded', err => {
     if (err) console.error(err);
 });
 
@@ -58,7 +61,8 @@ function download(numLiked, offset) {
                                     'file': name
                                 });
                             })
-                            .pipe(fs.createWriteStream('downloaded/' + name));
+                            .pipe(fs.createWriteStream((argv.d || 'downloaded') + '/' +
+                                name));
                     }
                 } else if (post.type == 'video') {
                     var url = post.video_url;
@@ -73,7 +77,8 @@ function download(numLiked, offset) {
                                 'file': name
                             });
                         })
-                        .pipe(fs.createWriteStream('downloaded/' + name));
+                        .pipe(fs.createWriteStream((argv.d || 'downloaded') +
+                            '/' + name));
                 }
             }
 

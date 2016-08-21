@@ -1,13 +1,13 @@
 {
   "name": "tumblr-like-dl",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Downloads your liked photos and videos on Tumblr.",
   "keywords": [
-      "tumblr",
-      "downloader",
-      "download",
-      "photo",
-      "video"
+    "tumblr",
+    "downloader",
+    "download",
+    "photo",
+    "video"
   ],
   "author": "Alex Taylor <alex@subnomo.me>",
   "license": "MIT",
@@ -20,8 +20,15 @@
     "url": "https://github.com/subnomo/tumblr-like-dl/issues"
   },
   "main": "index.js",
-  "engines": { "node": ">=4.0.0" },
+  "bin": {
+      "tumblrld": "index.js"
+  },
+  "preferGlobal": true,
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "dependencies": {
+    "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "progress": "^1.1.8",
     "request": "^2.74.0",
