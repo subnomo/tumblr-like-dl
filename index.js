@@ -55,34 +55,51 @@ function download(numLiked, offset) {
                     for (var j = 0; j < post.photos.length; j++) {
                         var url = post.photos[j].original_size.url;
                         var name = path.basename(url);
+                        var fullpath = (argv.d || 'downloaded') + '/' + name;
 
-                        request(url)
-                            .on('error', err => {
-                                console.error(err);
-                            })
-                            .on('close', () => {
+                        fs.stat(fullpath, (err, stat) => {
+                            if (err == null) {
                                 bar.tick({
-                                    'file': name
+                                    'file': name + ' (file exists)'
                                 });
-                            })
-                            .pipe(fs.createWriteStream((argv.d || 'downloaded') + '/' +
-                                name));
+                            } else if (err.code == 'ENOENT') {
+                                request(url)
+                                    .on('error', err => {
+                                        console.error(err);
+                                    })
+                                    .on('close', () => {
+                                        bar.tick({
+                                            'file': name
+                                        });
+                                    })
+                                    .pipe(fs.createWriteStream(fullpath));
+                            }
+                        });
+
                     }
                 } else if (post.type == 'video') {
                     var url = post.video_url;
                     var name = path.basename(url);
+                    var fullpath = (argv.d || 'downloaded') + '/' + name;
 
-                    request(url)
-                        .on('error', err => {
-                            console.error(err);
-                        })
-                        .on('close', () => {
+                    fs.stat(fullpath, (err, stat) => {
+                        if (err == null) {
                             bar.tick({
-                                'file': name
+                                'file': name + ' (file exists)'
                             });
-                        })
-                        .pipe(fs.createWriteStream((argv.d || 'downloaded') +
-                            '/' + name));
+                        } else if (err.code == 'ENOENT') {
+                            request(url)
+                                .on('error', err => {
+                                    console.error(err);
+                                })
+                                .on('close', () => {
+                                    bar.tick({
+                                        'file': name
+                                    });
+                                })
+                                .pipe(fs.createWriteStream(fullpath));
+                        }
+                    });
                 }
             }
 
