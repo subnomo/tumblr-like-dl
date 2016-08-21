@@ -42,27 +42,27 @@ function download(numLiked, offset) {
     client.userLikes({ offset: offset })
         .then(res => {
             for (var i = 0; i < res.liked_posts.length; i++) {
-               var post = res.liked_posts[i];
+                var post = res.liked_posts[i];
 
-               if (post.type == 'photo') {
-                   for (var j = 0; j < post.photos.length; j++) {
-                       var url = post.photos[j].original_size.url;
-                       var name = path.basename(url);
-                       
-                       request(url)
+                if (post.type == 'photo') {
+                    for (var j = 0; j < post.photos.length; j++) {
+                        var url = post.photos[j].original_size.url;
+                        var name = path.basename(url);
+
+                        request(url)
                             .on('error', err => {
                                 console.error(err);
                             })
                             .on('close', () => {
                                 bar.tick({
-                                    'file': name 
+                                    'file': name
                                 });
                             })
                             .pipe(fs.createWriteStream('downloaded/' + name));
-                   }
-               } else if (post.type == 'video') {
-                   var url = post.video_url;
-                   var name = path.basename(url);
+                    }
+                } else if (post.type == 'video') {
+                    var url = post.video_url;
+                    var name = path.basename(url);
 
                     request(url)
                         .on('error', err => {
@@ -74,7 +74,7 @@ function download(numLiked, offset) {
                             });
                         })
                         .pipe(fs.createWriteStream('downloaded/' + name));
-               }
+                }
             }
 
             offset += res.liked_posts.length;
