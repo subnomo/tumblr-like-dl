@@ -2,6 +2,9 @@
 
 Downloads your liked photos and videos on Tumblr.
 
+## WARNING: No longer working
+tumblr-like-dl is not working anymore. See my Rust project, [tumblr-likes](https://github.com/subnomo/tumblr-likes).
+
 ## Installation
 
 ```
